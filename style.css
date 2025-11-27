@@ -27,7 +27,8 @@ body {
     color: #ff4d6d;
     font-size: 24px;
     pointer-events: none;
-    z-index: 100;
+    z-index: 9999; /* 提高层级确保可见 */
+    animation: heartPopup 0.8s ease-out forwards;
 }
 .animate-pulse-slow {
     animation: pulse-slow 8s ease-in-out infinite;

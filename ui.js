@@ -36,11 +36,11 @@ export class UIManager {
         const heart = document.createElement('i');
         heart.className = 'lucide heart heart-animation';
         heart.setAttribute('data-lucide', 'heart');
-
+        Lucide.createIcons();
         // 获取按钮位置
         const rect = button.getBoundingClientRect();
-        heart.style.left = `${rect.left + rect.width/2}px`;
-        heart.style.top = `${rect.top - 20}px`;
+        heart.style.left = `${window.scrollX + rect.left + rect.width/2}px`;
+        heart.style.top = `${window.scrollY + rect.top - 30}px`;
 
         document.body.appendChild(heart);
 
