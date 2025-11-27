@@ -43,7 +43,7 @@ body {
 
 .tool-option.active {
     @apply bg-slate-800 text-white shadow-md;
-    transform: scale(0.9);
+    transform: scale(0.8);
     transition: transform 0.2s ease-in-out;
 }
 
