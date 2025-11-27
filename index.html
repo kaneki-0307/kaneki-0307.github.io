@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For You</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-50 overflow-hidden h-screen w-screen selection:bg-rose-200 selection:text-rose-900">
+
+    <!-- Ambient Background -->
+    <div id="ambient-bg" class="fixed inset-0 z-0 pointer-events-none opacity-60">
+        <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-rose-200 blur-[120px] animate-pulse-slow"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] rounded-full bg-indigo-100 blur-[140px] animate-float"></div>
+        <div class="absolute top-[40%] left-[40%] w-[30vw] h-[30vw] rounded-full bg-pink-100 blur-[100px]"></div>
+    </div>
+
+    <!-- Intro Section -->
+    <section id="intro-view" class="relative z-10 flex flex-col items-center justify-center h-full w-full text-center p-8">
+        <div class="space-y-6 max-w-md">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/50 shadow-xl backdrop-blur-md mb-4">
+                <i data-lucide="heart" class="w-8 h-8 text-rose-400 fill-rose-400"></i>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-light tracking-tight text-slate-800">
+                Designed for <span class="text-rose-500 font-normal italic">Her</span>.
+            </h1>
+            <p class="text-lg text-slate-500 font-light leading-relaxed">
+                A quiet space for your imagination.<br>
+                Paint your dreams, my love.
+            </p>
+            <div class="pt-8">
+                <button id="start-btn" class="group relative px-8 py-4 bg-rose-500 text-white rounded-full shadow-lg hover:shadow-rose-200/50 hover:scale-105 transition-all duration-300 overflow-hidden">
+                    <span class="relative z-10 font-medium tracking-wide flex items-center gap-2">
+                        Start Creating <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </span>
+                    <div class="absolute inset-0 bg-gradient-to-r from-rose-400 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Drawing Application (Hidden initially) -->
+    <section id="app-view" class="fixed inset-0 z-20 hidden opacity-0">
+        
+        <!-- Top Bar -->
+        <header class="absolute top-0 left-0 right-0 h-16 flex items-center justify-between px-6 z-30 pointer-events-none">
+            <div class="pointer-events-auto flex items-center gap-3">
+                <button id="back-btn" class="p-2 rounded-full hover:bg-black/5 text-slate-600 transition-colors">
+                    <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                </button>
+                <span class="text-sm font-medium text-slate-400 tracking-widest uppercase">Canvas</span>
+            </div>
+            
+            <div class="pointer-events-auto flex gap-2">
+                <button id="undo-btn" class="tool-btn" title="Undo">
+                    <i data-lucide="undo-2" class="w-5 h-5"></i>
+                </button>
+                <button id="download-btn" class="tool-btn !text-rose-500 !bg-rose-50 hover:!bg-rose-100" title="Save Art">
+                    <i data-lucide="download" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Canvas Container -->
+        <div id="canvas-container" class="absolute inset-0 flex items-center justify-center bg-transparent touch-none">
+            <canvas id="main-canvas" class="bg-white shadow-2xl shadow-slate-200/50 rounded-lg cursor-crosshair"></canvas>
+        </div>
+
+        <!-- Floating Toolbar -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 pointer-events-auto">
+            <div class="glass-panel flex items-center gap-4 p-2 rounded-full shadow-2xl shadow-slate-300/40 border border-white/40">
+                
+                <!-- Tools -->
+                <div class="flex items-center gap-1 pr-4 border-r border-slate-200/50">
+                    <button class="tool-option active" data-tool="pen" title="Pen">
+                        <i data-lucide="pen-tool" class="w-5 h-5"></i>
+                    </button>
+                    <button class="tool-option" data-tool="marker" title="Marker">
+                        <i data-lucide="highlighter" class="w-5 h-5"></i>
+                    </button>
+                    <button class="tool-option" data-tool="heart" title="Love Brush">
+                        <i data-lucide="sparkles" class="w-5 h-5 text-rose-400"></i>
+                    </button>
+                    <button class="tool-option" data-tool="eraser" title="Eraser">
+                        <i data-lucide="eraser" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- Color Picker -->
+                <div class="flex items-center gap-2 px-2">
+                    <div class="color-swatch active" style="background-color: #1e293b;" data-color="#1e293b"></div>
+                    <div class="color-swatch" style="background-color: #f43f5e;" data-color="#f43f5e"></div>
+                    <div class="color-swatch" style="background-color: #8b5cf6;" data-color="#8b5cf6"></div>
+                    <div class="color-swatch" style="background-color: #10b981;" data-color="#10b981"></div>
+                    <div class="color-swatch" style="background-color: #f59e0b;" data-color="#f59e0b"></div>
+                </div>
+
+                <!-- Size Slider -->
+                <div class="pl-4 border-l border-slate-200/50 flex items-center gap-2 w-32">
+                    <i data-lucide="circle" class="w-3 h-3 text-slate-400"></i>
+                    <input type="range" id="size-slider" min="1" max="50" value="5" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-800">
+                </div>
+
+                <button id="clear-btn" class="ml-2 p-2 rounded-full hover:bg-rose-50 text-rose-400 transition-colors" title="Clear All">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>
