@@ -16,7 +16,19 @@ body {
     66% { transform: translate(-20px, 20px) rotate(-5deg); }
     100% { transform: translate(0, 0) rotate(0deg); }
 }
+@keyframes heartPopup {
+    0% { transform: scale(0); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.8; }
+    100% { transform: scale(0); opacity: 0; }
+}
 
+.heart-animation {
+    position: absolute;
+    color: #ff4d6d;
+    font-size: 24px;
+    pointer-events: none;
+    z-index: 100;
+}
 .animate-pulse-slow {
     animation: pulse-slow 8s ease-in-out infinite;
 }

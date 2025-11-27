@@ -21,6 +21,9 @@ export class UIManager {
 
                 const tool = btn.dataset.tool;
                 this.core.setTool(tool);
+                if (tool === 'heart-brush') {
+                this.createHeartAnimation(btn);
+                }
             });
         });
 
@@ -29,7 +32,24 @@ export class UIManager {
             this.core.setSize(parseInt(e.target.value));
         });
     }
+    createHeartAnimation(button) {
+        const heart = document.createElement('i');
+        heart.className = 'lucide heart heart-animation';
+        heart.setAttribute('data-lucide', 'heart');
 
+        // 获取按钮位置
+        const rect = button.getBoundingClientRect();
+        heart.style.left = `${rect.left + rect.width/2}px`;
+        heart.style.top = `${rect.top - 20}px`;
+
+        document.body.appendChild(heart);
+
+        // 触发动画
+        heart.style.animation = 'heartPopup 0.8s ease-out forwards';
+
+        // 动画结束后移除元素
+        setTimeout(() => heart.remove(), 800);
+    }
     bindColors() {
         const swatches = document.querySelectorAll('.color-swatch');
         swatches.forEach(swatch => {
